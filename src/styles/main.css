@@ -150,3 +150,23 @@
     }
   }
 }
+
+/* Banner text animations */
+@keyframes banner-text-fade {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    15%, 85% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade {
+    animation: banner-text-fade 6s ease-in-out infinite;
+}
+
+.banner-title {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7), 0 2px 4px rgba(0, 0, 0, 0.5);
+}

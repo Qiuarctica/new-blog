@@ -57,6 +57,14 @@ const mainPanelTop = siteConfig.banner.enable
                   src={siteConfig.banner.src} position={siteConfig.banner.position}
     >
     </ImageWrapper>
+    
+    <!-- Banner text overlay -->
+    {siteConfig.banner.text?.enable && <div id="banner-text" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+        <h1 class:list={["banner-title text-white text-3xl md:text-5xl font-bold text-center px-4 drop-shadow-2xl", 
+                        {"animate-fade": siteConfig.banner.text.style === "fade"}]}>
+            {siteConfig.banner.text.content}
+        </h1>
+    </div>}
 </div>}
 
 <!-- Main content -->
