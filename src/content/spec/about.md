@@ -1,9 +1,6 @@
 # About
-This is the demo site for [Fuwari](https://github.com/saicaca/fuwari).
+Ciallo～(∠・ω< )⌒★ 这里是Qiuarctica的个人博客,来自哈尔滨工业大学(深圳)的本科三年级学生一枚.主要使用C/C++与Python,喜欢系统与infra,在博客中分享日常思考与学习,或者一些项目竞赛经历,希望能帮到您!
+
+本博客基于fuwari进行简单魔改,具体代码请见原版仓库:
 
 ::github{repo="saicaca/fuwari"}
-
-> ### Sources of images used in this site
-> - [Unsplash](https://unsplash.com/)
-> - [星と少女](https://www.pixiv.net/artworks/108916539) by [Stella](https://www.pixiv.net/users/93273965)
-> - [Rabbit - v1.4 Showcase](https://civitai.com/posts/586908) by [Rabbit_YourMajesty](https://civitai.com/user/Rabbit_YourMajesty)
