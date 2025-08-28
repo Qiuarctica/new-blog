@@ -17,7 +17,7 @@ export const siteConfig: SiteConfig = {
 	},
 	banner: {
 		enable: true,
-		src: "assets/images/banner.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+		src: "/assets/images/banner.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 		position: "top", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
 		text: {
 			enable: true,
@@ -58,7 +58,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/meihong.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	avatar: "/assets/images/meihong.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "Qiuarctica",
 	bio: "莲瓣入水而不苦根茎，勿执着",
 	links: [

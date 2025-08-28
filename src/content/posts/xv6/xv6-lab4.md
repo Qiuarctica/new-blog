@@ -11,7 +11,7 @@ draft: false
 
 在risc-v中，函数的帧栈被这样组织
 
-![graphviz](/assets/xv6-lab4.svg)
+![graphviz](/assets/images/xv6-lab4.svg)
 
 我们可以通过不断获得fp(栈指针)从而遍历整个函数调用栈,  
 我们可以默认函数调用的帧栈都被储存在一页上来设置终止条件：
