@@ -3,7 +3,7 @@ title: 为什么推荐你使用Fish shell
 published: 2025-04-06
 tags: [Linux]
 category: 系统杂谈
-image: "/assets/images/fish/Terminal_Logo2_CRT_Flat-20250828113031-itzmt0f.png"
+image: "../../../assets/fish.png"
 draft: false
 ---
 
@@ -11,7 +11,7 @@ draft: false
 
 :::important
 
-先说结论,Fish shell泛用性极强,对策性一般,总体适用性超大杯偏上,推荐一般用户使用.
+先说结论,Fish shell泛用性极强,对策性较高,总体适用性超大杯偏上,推荐一般用户使用.
 
 :::
 
