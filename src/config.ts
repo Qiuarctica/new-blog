@@ -17,7 +17,7 @@ export const siteConfig: SiteConfig = {
 	},
 	banner: {
 		enable: true,
-		src: "/assets/images/banner.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+		src: "./assets/banner.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 		position: "top", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
 		text: {
 			enable: true,
@@ -37,7 +37,7 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		// Leave this array empty to use the default favicon
 		{
-			src: "/favicon/meihong.jpg", // Path of the favicon, relative to the /public directory
+			src: "./assets/meihong.jpg", // Path of the favicon, relative to the /public directory
 			theme: "light", // (Optional) Either 'light' or 'dark', set only if you have different favicons for light and dark mode
 			sizes: "32x32", // (Optional) Size of the favicon, set only if you have favicons of different sizes
 		},
@@ -50,6 +50,11 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Archive,
 		LinkPreset.About,
 		{
+			name: "留言板",
+			url: "/guestbook/",
+			external: false,
+		},
+		{
 			name: "GitHub",
 			url: "https://github.com/Qiuarctica", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
@@ -58,7 +63,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "/assets/images/meihong.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	avatar: "./assets/meihong.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "Qiuarctica",
 	bio: "莲瓣入水而不苦根茎，勿执着",
 	links: [

@@ -1,0 +1,115 @@
+---
+import { Icon } from "astro-icon/components";
+import Giscus from "../components/Giscus.astro";
+import { siteConfig } from "../config";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+
+const title = "留言板";
+const description = "欢迎在这里留下您的足迹和想法";
+---
+
+<MainGridLayout title={title} description={description}>
+    <div class="flex w-full rounded-[var(--radius-large)] justify-center px-4">
+        <div class="w-full max-w-[var(--page-width)] overflow-hidden">
+            <!-- 留言板标题 -->
+            <div class="onload-animation">
+                
+                <!-- 留言板说明 -->
+                <div class="card-base p-6 mb-6 rounded-[var(--radius-large)]">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--primary)]/20 to-[var(--primary)]/10 flex items-center justify-center flex-shrink-0 mt-1">
+                            <Icon name="material-symbols:waving-hand-outline-rounded" class="text-[var(--primary)] text-2xl" />
+                        </div>
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-semibold text-black/90 dark:text-white/90 mb-2">
+                                欢迎来到留言板！
+                            </h2>
+                            <div class="text-neutral-600 dark:text-neutral-400 space-y-2">
+                                <p>这里是一个自由交流的地方，您可以：</p>
+                                <ul class="list-disc list-inside space-y-1 ml-2">
+                                    <li>分享您对博客的看法和建议</li>
+                                    <li>与其他访客进行友好交流</li>
+                                    <li>留下您的足迹和想法</li>
+                                    <li>提出问题或寻求帮助</li>
+                                </ul>
+                                <p class="text-sm text-neutral-500 dark:text-neutral-500 mt-4">
+                                    💡 提示：您需要GitHub账号才能留言，留言支持Markdown语法
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 留言统计 -->
+            <div class="onload-animation mb-6">
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-full">
+                        <Icon name="material-symbols:book" class="text-blue-600 dark:text-blue-400" />
+                        <span class="text-sm font-medium text-blue-700 dark:text-blue-300">访客留言</span>
+                    </div>
+                    <div class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-full">
+                        <Icon name="material-symbols:forum-outline-rounded" class="text-green-600 dark:text-green-400" />
+                        <span class="text-sm font-medium text-green-700 dark:text-green-300">互动交流</span>
+                    </div>
+                    <div class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 rounded-full">
+                        <Icon name="material-symbols:favorite-outline-rounded" class="text-purple-600 dark:text-purple-400" />
+                        <span class="text-sm font-medium text-purple-700 dark:text-purple-300">友好氛围</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 留言区域 -->
+            <div class="onload-animation">
+                <div class="card-base p-6 rounded-[var(--radius-large)]">
+                    <div class="flex items-center gap-3 mb-4">
+                        <Icon name="material-symbols:edit-note-rounded" class="text-[var(--primary)] text-xl" />
+                        <h3 class="text-lg font-semibold text-black/90 dark:text-white/90">
+                            开始留言
+                        </h3>
+                    </div>
+                    
+                    <!-- Giscus评论系统作为留言板 -->
+                    <Giscus isGuestbook={true} />
+                </div>
+            </div>
+
+            <!-- 留言规则 -->
+            <div class="onload-animation mt-6">
+                <div class="card-base p-6 rounded-[var(--radius-large)] border border-orange-200/50 dark:border-orange-800/30">
+                    <div class="flex items-start gap-3">
+                        <Icon name="material-symbols:info-outline-rounded" class="text-orange-500 text-xl mt-0.5 flex-shrink-0" />
+                        <div>
+                            <h4 class="font-medium text-orange-800 dark:text-orange-200 mb-2">留言须知</h4>
+                            <ul class="text-sm text-orange-700 dark:text-orange-300 space-y-1">
+                                <li>• 请保持友善和尊重的态度</li>
+                                <li>• 禁止发布违法、暴力、仇恨言论</li>
+                                <li>• 欢迎建设性的讨论和建议</li>
+                                <li>• 支持使用Emoji表情丰富表达 😊</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</MainGridLayout>
+
+<style>
+/* 留言板专用样式 */
+.guestbook-gradient {
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-rgb), 0.05) 0%, 
+        rgba(var(--primary-rgb), 0.02) 100%);
+}
+
+/* 动画效果 */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+</style>

@@ -1,0 +1,115 @@
+---
+interface Props {
+	class?: string;
+	isGuestbook?: boolean;
+}
+const { class: className, isGuestbook = false } = Astro.props;
+---
+
+<div id="giscus-container" class:list={["w-full", className]}>
+    <div id="giscus-comments" class="giscus"></div>
+    <div id="giscus-fallback" style="display: none;" class="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg text-center">
+        <p class="text-gray-600 dark:text-gray-400 mb-2">评论系统加载遇到问题</p>
+        <p class="text-sm text-gray-500 dark:text-gray-500">
+            请尝试刷新页面，或者访问 
+            <a href="https://github.com/Qiuarctica/new-blog/discussions" 
+               target="_blank" 
+               class="text-blue-500 hover:underline">
+                GitHub Discussions
+            </a> 
+            参与讨论
+        </p>
+    </div>
+</div>
+
+<script define:vars={{isGuestbook}}>
+function loadGiscus() {
+    const giscusContainer = document.getElementById('giscus-comments');
+    if (!giscusContainer) return;
+    // 检测当前主题
+    const isDark = document.documentElement.classList.contains('dark') || 
+                   localStorage.getItem('theme') === 'dark' ||
+                   (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'Qiuarctica/new-blog'); // 替换为您的仓库
+    script.setAttribute('data-repo-id', 'R_kgDOPkDtdw'); // 替换为您的repo-id
+    if(isGuestbook){
+        script.setAttribute('data-category', 'General');
+        script.setAttribute('data-category-id', 'DIC_kwDOPkDtd84Cu0cP');
+        script.setAttribute('data-mapping', 'specific');
+        script.setAttribute('data-term', '留言板');
+    }else{
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDOPkDtd84Cu0cO'); // 替换为您的category-id
+        script.setAttribute('data-mapping', 'pathname');
+    }
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'top');
+    script.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    script.setAttribute('data-lang', 'zh-CN');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+
+    giscusContainer.appendChild(script);
+} 
+function updateGiscusTheme() {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (iframe && iframe instanceof HTMLIFrameElement) {
+        const isDark = document.documentElement.classList.contains('dark') || 
+                       localStorage.getItem('theme') === 'dark' ||
+                       (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        
+        iframe.contentWindow?.postMessage({
+            giscus: {
+                setConfig: {
+                    theme: isDark ? 'dark_tritanopia' : 'light'
+                }
+            }
+        }, 'https://giscus.app');
+    }
+}
+// 页面加载完成后加载评论
+document.addEventListener('DOMContentLoaded', loadGiscus);
+
+// 监听主题变化
+document.addEventListener('astro:page-load', () => {
+    // 重新加载评论（适用于SPA路由）
+    const existingScript = document.querySelector('script[src="https://giscus.app/client.js"]');
+    if (existingScript) {
+        existingScript.remove();
+    }
+    setTimeout(loadGiscus, 100);
+});
+
+// 监听主题切换
+const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            updateGiscusTheme();
+        }
+    });
+});
+
+observer.observe(document.documentElement, { attributes: true });
+</script>
+
+<style>
+#giscus-container {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.giscus {
+    width: 100%;
+}
+
+/* 自定义评论区样式 */
+:global(.giscus-frame) {
+    border-radius: var(--radius-large, 12px) !important;
+    border: 1px solid var(--line-divider, #e5e7eb) !important;
+}
+</style>
