@@ -99,6 +99,13 @@ const jsonLD = {
   <meta property="article:tag" content={tag} />
 ))}
 
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={defaultDescription} />
+<meta property="twitter:image" content={fullImageURL} />
+
 <!-- Additional SEO Tags -->
 <meta name="theme-color" content="#ffffff" />
 <meta name="msapplication-TileColor" content="#ffffff" />

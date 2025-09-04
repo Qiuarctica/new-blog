@@ -3,6 +3,7 @@ title: 为什么推荐你使用Fish shell
 published: 2025-04-06
 tags: [Linux]
 category: 系统杂谈
+description: 对Fish的简要介绍与推荐
 image: "../../../assets/fish.png"
 draft: false
 ---

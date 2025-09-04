@@ -6,8 +6,8 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
-import { getDir, getPostUrlBySlug } from "@utils/url-utils";
 import { extractExcerpt, formatTags } from "@utils/seo-utils";
+import { getDir, getPostUrlBySlug } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
 import { licenseConfig } from "src/config";
 import Giscus from "../../components/Giscus.astro";
@@ -29,23 +29,25 @@ const { Content, headings } = await entry.render();
 const { remarkPluginFrontmatter } = await entry.render();
 
 // SEO优化：生成文章描述
-const articleDescription = entry.data.description || 
-	extractExcerpt(entry.body, 160) || 
+const articleDescription =
+	entry.data.description ||
+	extractExcerpt(entry.body, 160) ||
 	`${entry.data.title} - ${profileConfig.name}的博客文章`;
 
 // SEO优化：格式化标签
 const articleTags = formatTags(entry.data.tags || []);
 
 // SEO优化：生成发布和修改时间的ISO格式
-const publishedTime = entry.data.published ? new Date(entry.data.published).toISOString() : undefined;
-const modifiedTime = entry.data.lastModified ? new Date(entry.data.lastModified).toISOString() : undefined;
+const publishedTime = entry.data.published
+	? new Date(entry.data.published).toISOString()
+	: undefined;
 
 const jsonLd = {
 	"@context": "https://schema.org",
 	"@type": "BlogPosting",
 	headline: entry.data.title,
 	description: articleDescription,
-	keywords: articleTags.join(', '),
+	keywords: articleTags.join(", "),
 	author: {
 		"@type": "Person",
 		name: profileConfig.name,
@@ -60,7 +62,7 @@ const jsonLd = {
 		},
 	},
 	datePublished: publishedTime,
-	dateModified: modifiedTime || publishedTime,
+	dateModified: publishedTime,
 	inLanguage: entry.data.lang
 		? entry.data.lang.replace("_", "-")
 		: siteConfig.lang.replace("_", "-"),
@@ -73,10 +75,10 @@ const jsonLd = {
 		image: {
 			"@type": "ImageObject",
 			url: new URL(entry.data.image, Astro.site).toString(),
-		}
+		},
 	}),
 	wordCount: remarkPluginFrontmatter?.words || 0,
-	timeRequired: `PT${Math.ceil((remarkPluginFrontmatter?.minutes || 1))}M`,
+	timeRequired: `PT${Math.ceil(remarkPluginFrontmatter?.minutes || 1)}M`,
 };
 ---
 <MainGridLayout 
@@ -88,7 +90,6 @@ const jsonLd = {
 	headings={headings}
 	image={entry.data.image}
 	publishedTime={publishedTime}
-	modifiedTime={modifiedTime}
 	tags={articleTags}
 	author={profileConfig.name}
 >
