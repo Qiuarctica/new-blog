@@ -1,0 +1,107 @@
+---
+import { siteConfig, profileConfig } from "@/config";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  tags?: string[];
+  author?: string;
+  canonicalURL?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  image,
+  article = false,
+  publishedTime,
+  modifiedTime,
+  tags = [],
+  author = profileConfig.name,
+  canonicalURL,
+  noindex = false,
+} = Astro.props;
+
+// 构建完整标题
+const fullTitle = title ? `${title} | ${siteConfig.title}` : siteConfig.title;
+
+// 默认描述
+const defaultDescription = description || siteConfig.subtitle || `${profileConfig.name}的个人博客`;
+
+// 默认图片
+const defaultImage = image || siteConfig.banner?.src || "/favicon-192.png";
+const fullImageURL = new URL(defaultImage, Astro.site);
+
+// 结构化数据
+const jsonLD = {
+  "@context": "https://schema.org",
+  "@type": article ? "BlogPosting" : "WebSite",
+  headline: title,
+  description: defaultDescription,
+  image: fullImageURL.toString(),
+  author: {
+    "@type": "Person",
+    name: author,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: siteConfig.title,
+    logo: {
+      "@type": "ImageObject",
+      url: new URL("/favicon-192.png", Astro.site).toString(),
+    },
+  },
+  url: Astro.url.toString(),
+  ...(publishedTime && { datePublished: publishedTime }),
+  ...(modifiedTime && { dateModified: modifiedTime }),
+  ...(article && {
+    "@type": "BlogPosting",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": Astro.url.toString(),
+    },
+    keywords: tags.join(", "),
+  }),
+};
+---
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="description" content={defaultDescription} />
+<meta name="author" content={author} />
+{canonicalURL && <link rel="canonical" href={canonicalURL} />}
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={article ? "article" : "website"} />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={defaultDescription} />
+<meta property="og:image" content={fullImageURL} />
+<meta property="og:site_name" content={siteConfig.title} />
+<meta property="og:locale" content={siteConfig.lang.replace("_", "-")} />
+
+{article && publishedTime && (
+  <meta property="article:published_time" content={publishedTime} />
+)}
+{article && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime} />
+)}
+{article && author && (
+  <meta property="article:author" content={author} />
+)}
+{article && tags.map(tag => (
+  <meta property="article:tag" content={tag} />
+))}
+
+<!-- Additional SEO Tags -->
+<meta name="theme-color" content="#ffffff" />
+<meta name="msapplication-TileColor" content="#ffffff" />
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />

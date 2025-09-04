@@ -11,6 +11,9 @@ export const siteConfig: SiteConfig = {
 	title: "Qiuarctica",
 	subtitle: "Personal blog",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
+	description: "Qiuarctica的个人博客 - 在认清生活的真相之后依然热爱生活", // 网站描述，用于SEO
+	keywords: ["博客", "技术", "生活", "思考", "编程"], // 关键词，用于SEO
+	author: "Qiuarctica", // 作者名称
 	themeColor: {
 		hue: 250, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
 		fixed: false, // Hide the theme color picker for visitors

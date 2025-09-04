@@ -22,6 +22,12 @@ interface Props {
 	lang?: string;
 	setOGTypeArticle?: boolean;
 	headings?: MarkdownHeading[];
+	image?: string;
+	publishedTime?: string;
+	modifiedTime?: string;
+	tags?: string[];
+	author?: string;
+	noindex?: boolean;
 }
 
 const {
@@ -30,8 +36,15 @@ const {
 	description,
 	lang,
 	setOGTypeArticle,
-	headings = [],
+	headings,
+	image,
+	publishedTime,
+	modifiedTime,
+	tags,
+	author,
+	noindex,
 } = Astro.props;
+
 const hasBannerCredit =
 	siteConfig.banner.enable && siteConfig.banner.credit.enable;
 const hasBannerLink = !!siteConfig.banner.credit.url;
@@ -41,7 +54,19 @@ const mainPanelTop = siteConfig.banner.enable
 	: "5.5rem";
 ---
 
-<Layout title={title} banner={banner} description={description} lang={lang} setOGTypeArticle={setOGTypeArticle}>
+<Layout 
+	title={title} 
+	banner={banner} 
+	description={description} 
+	lang={lang} 
+	setOGTypeArticle={setOGTypeArticle}
+	image={image}
+	publishedTime={publishedTime}
+	modifiedTime={modifiedTime}
+	tags={tags}
+	author={author}
+	noindex={noindex}
+>
 
 <!-- Navbar -->
 <slot slot="head" name="head"></slot>
@@ -120,7 +145,7 @@ const mainPanelTop = siteConfig.banner.enable
             <div id="toc-inner-wrapper" class="fixed top-14 w-[var(--toc-width)] h-[calc(100vh_-_20rem)] overflow-y-scroll overflow-x-hidden hide-scrollbar">
                 <div id="toc" class="w-full h-full transition-swup-fade ">
                     <div class="h-8 w-full"></div>
-                    <TOC headings={headings}></TOC>
+                    <TOC headings={headings || []}></TOC>
                     <div class="h-8 w-full"></div>
                 </div>
             </div>

@@ -3,6 +3,9 @@ import type { AUTO_MODE, DARK_MODE, LIGHT_MODE } from "@constants/constants";
 export type SiteConfig = {
 	title: string;
 	subtitle: string;
+	description?: string; // 网站描述，用于SEO
+	keywords?: string[]; // 关键词，用于SEO  
+	author?: string; // 作者名称
 
 	lang:
 		| "en"

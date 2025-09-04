@@ -7,6 +7,7 @@ import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
 import { getDir, getPostUrlBySlug } from "@utils/url-utils";
+import { extractExcerpt, formatTags } from "@utils/seo-utils";
 import { Icon } from "astro-icon/components";
 import { licenseConfig } from "src/config";
 import Giscus from "../../components/Giscus.astro";
@@ -25,28 +26,72 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, headings } = await entry.render();
-
 const { remarkPluginFrontmatter } = await entry.render();
+
+// SEO优化：生成文章描述
+const articleDescription = entry.data.description || 
+	extractExcerpt(entry.body, 160) || 
+	`${entry.data.title} - ${profileConfig.name}的博客文章`;
+
+// SEO优化：格式化标签
+const articleTags = formatTags(entry.data.tags || []);
+
+// SEO优化：生成发布和修改时间的ISO格式
+const publishedTime = entry.data.published ? new Date(entry.data.published).toISOString() : undefined;
+const modifiedTime = entry.data.lastModified ? new Date(entry.data.lastModified).toISOString() : undefined;
 
 const jsonLd = {
 	"@context": "https://schema.org",
 	"@type": "BlogPosting",
 	headline: entry.data.title,
-	description: entry.data.description || entry.data.title,
-	keywords: entry.data.tags,
+	description: articleDescription,
+	keywords: articleTags.join(', '),
 	author: {
 		"@type": "Person",
 		name: profileConfig.name,
 		url: Astro.site,
 	},
-	datePublished: formatDateToYYYYMMDD(entry.data.published),
+	publisher: {
+		"@type": "Organization",
+		name: siteConfig.title,
+		logo: {
+			"@type": "ImageObject",
+			url: new URL("/favicon-192.png", Astro.site).toString(),
+		},
+	},
+	datePublished: publishedTime,
+	dateModified: modifiedTime || publishedTime,
 	inLanguage: entry.data.lang
 		? entry.data.lang.replace("_", "-")
 		: siteConfig.lang.replace("_", "-"),
-	// TODO include cover image here
+	mainEntityOfPage: {
+		"@type": "WebPage",
+		"@id": Astro.url.toString(),
+	},
+	url: Astro.url.toString(),
+	...(entry.data.image && {
+		image: {
+			"@type": "ImageObject",
+			url: new URL(entry.data.image, Astro.site).toString(),
+		}
+	}),
+	wordCount: remarkPluginFrontmatter?.words || 0,
+	timeRequired: `PT${Math.ceil((remarkPluginFrontmatter?.minutes || 1))}M`,
 };
 ---
-<MainGridLayout banner={entry.data.image} title={entry.data.title} description={entry.data.description} lang={entry.data.lang} setOGTypeArticle={true} headings={headings}>
+<MainGridLayout 
+	banner={entry.data.image} 
+	title={entry.data.title} 
+	description={articleDescription}
+	lang={entry.data.lang} 
+	setOGTypeArticle={true} 
+	headings={headings}
+	image={entry.data.image}
+	publishedTime={publishedTime}
+	modifiedTime={modifiedTime}
+	tags={articleTags}
+	author={profileConfig.name}
+>
     <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
         <div id="post-container" class:list={["card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full ",

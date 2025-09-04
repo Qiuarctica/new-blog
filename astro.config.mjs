@@ -28,7 +28,7 @@ import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://fuwari.vercel.app/",
+  site: "https://qiuy.cloud/",
   base: "/",
   trailingSlash: "always",
 
@@ -104,7 +104,29 @@ export default defineConfig({
           },
       }),
       svelte(),
-      sitemap(),
+      sitemap({
+        changefreq: 'weekly',
+        priority: 0.7,
+        lastmod: new Date(),
+        entryLimit: 10000,
+        // 自定义URL
+        customPages: [
+          'https://qiuy.cloud/',
+          'https://qiuy.cloud/about/',
+          'https://qiuy.cloud/archive/',
+          'https://qiuy.cloud/guestbook/',
+        ],
+        // 过滤掉不需要的页面
+        filter: (page) => !page.includes('/draft/') && !page.includes('/private/'),
+        // i18n 支持
+        i18n: {
+          defaultLocale: 'zh-CN',
+          locales: {
+            'zh-CN': 'zh-CN',
+            'en': 'en-US',
+          }
+        }
+      }),
 	],
 
   markdown: {
