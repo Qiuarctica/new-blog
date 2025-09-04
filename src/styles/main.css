@@ -1,6 +1,13 @@
 @tailwind components;
 
 @layer components {
+    /* 全局字体大小和粗细设置 */
+    body {
+        font-family: "LXGW WenKai", "Roboto", sans-serif;
+        font-size: 18px; /* 基础字体大小，可以调整为 17px, 18px 等 */
+        font-weight: 550; /* 比默认的 400 稍微粗一些，可调整为 500, 550 等 */
+        line-height: 1.7; /* 行高，提高可读性 */
+    }
     .card-base {
         @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition;
     }

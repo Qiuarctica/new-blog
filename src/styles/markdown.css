@@ -1,6 +1,14 @@
 .custom-md {
+    /* 调整markdown内容的字体大小和粗细 */
+    font-size: 17px; /* 基础字体大小，可调整为17px, 18px */
+    font-weight: 550; /* 稍微加粗，可调整为500, 550 */
+    line-height: 1.7; /* 增加行高提高可读性 */
+    
+    /* 段落字体设置 */
+    
     h1 {
         @apply text-3xl;
+        font-weight: 600; /* 标题字体加粗 */
     }
 
     h1, h2, h3, h4, h5, h6 {
